@@ -1,0 +1,30 @@
+import numpy as np
+import cv2
+
+I = cv2.imread("3.1.jpg")
+
+I = cv2.resize(I, (378,504))
+E = cv2.imread("eljo.png")
+N=cv2.imread("ki.png")
+
+
+w = I.shape[1]
+h = I.shape[0]
+
+we = E.shape[1]
+he = E.shape[0]
+
+M0 = np.zeros((h, w))
+
+
+M1 = cv2.matchTemplate(I, E, cv2.TM_CCOEFF)
+_, _, _, maxIdx = cv2.minMaxLoc(M1)
+cv2.circle(N, (maxIdx[0] + we // 2, maxIdx[1] + he //2), 20, (0, 0, 0), 1)
+
+
+
+cv2.imshow('I', I)
+cv2.imshow('E',E)
+cv2.imshow('N', N)
+cv2.waitKey()
+cv2.destroyAllWindows()
