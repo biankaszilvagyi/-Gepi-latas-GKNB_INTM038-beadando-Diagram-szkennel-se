@@ -1,0 +1,35 @@
+import numpy as np
+import cv2
+
+I = cv2.imread("3.1.jpg")
+I = cv2.resize(I, (378,504))
+R = cv2.imread("rombusz.png")
+N = cv2.imread("ki.png")
+
+
+w = I.shape[1]
+h = I.shape[0]
+
+wr = R.shape[1]
+hr = R.shape[0]
+
+M0 = np.zeros((h, w))
+
+M1 = cv2.matchTemplate(I, R, cv2.TM_CCOEFF_NORMED)
+_, _, _, maxIdx = cv2.minMaxLoc(M1)
+
+isClosed = True
+color=(0,0,0)
+cv2.polylines(N, (maxIdx[0], maxIdx[1]), (maxIdx[0] + wr, maxIdx[1] + hr), isClosed , color, 1)
+#nem működik, hibára fut, isClosed nem bool?
+
+
+
+
+
+
+cv2.imshow('I', I)
+cv2.imshow('R', R)
+cv2.imshow('N', N)
+cv2.waitKey()
+cv2.destroyAllWindows()
